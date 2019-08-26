@@ -2,7 +2,7 @@ const xss = require('xss')
 const { exec } = require('../db/mysql')
 
 const getList = (author, keyword) => {
-    let sql = `select * from blog where 1=1 `
+    let sql = `select * from blogs where 1=1 `
     if (author) {
         sql += `and author='${author}' `
     }
@@ -16,7 +16,7 @@ const getList = (author, keyword) => {
 }
 
 const getDetail = (id) => {
-    const sql = `select * from blog where id='${id}'`
+    const sql = `select * from blogs where id='${id}'`
     return exec(sql).then(rows => {
         return rows[0]
     })
@@ -31,7 +31,7 @@ const newBlog = (blogData = {}) => {
     const createTime = Date.now()
 
     const sql = `
-        insert into blog (title, content, createtime, author)
+        insert into blogs (title, content, createtime, author)
         values ('${title}', '${content}', ${createTime}, '${author}');
     `
 
@@ -51,7 +51,7 @@ const updateBlog = (id, blogData = {}) => {
     const content = xss(blogData.content)
 
     const sql = `
-        update blog set title='${title}', content='${content}' where id=${id}
+        update blogs set title='${title}', content='${content}' where id=${id}
     `
 
     return exec(sql).then(updateData => {
@@ -65,7 +65,7 @@ const updateBlog = (id, blogData = {}) => {
 
 const delBlog = (id, author) => {
     // id 就是要删除博客的 id
-    const sql = `delete from blog where id='${id}' and author='${author}';`
+    const sql = `delete from blogs where id='${id}' and author='${author}';`
     return exec(sql).then(delData => {
         // console.log('delData is ', delData)
         if (delData.affectedRows > 0) {

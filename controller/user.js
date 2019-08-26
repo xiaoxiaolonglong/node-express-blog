@@ -7,8 +7,9 @@ const login = (username, password) => {
     // 生成加密密码
     password = genPassword(password)
     password = escape(password)
+
     const sql = `
-        select username, realname from user where username=${username} and password=${password}
+        select username, realname from users where username=${username} and password=${password}
     `
     // console.log('sql is', sql)
     return exec(sql).then(rows => {
