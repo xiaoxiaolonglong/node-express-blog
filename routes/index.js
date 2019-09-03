@@ -4,12 +4,14 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    var html = fs.readFileSync('./views/index.html')
- 
-    res.write(html);
- 
-    //结束写的操作
-    res.end();
+    res.writeHead(200,{'Content-Type':'text/html'})
+    // 设置静态html页面
+    fs.readFile('./views/index.html','utf-8',function(err,data){
+        if(err){
+        throw err ;
+        }
+        res.end(data);
+    });
 });
 
 module.exports = router;
